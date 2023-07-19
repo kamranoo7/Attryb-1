@@ -6,8 +6,8 @@ let carRouter=express.Router()
 //Post
 carRouter.post("/add",async(req,res)=>{
     try{
-let book=new CarModel(req.body)
-await book.save()
+let car=new CarModel(req.body)
+await car.save()
 res.status(200).json({msg:"car added","addedCar":req.body})
     }catch(err){
 res.status(400).json({error:err.message})
@@ -18,8 +18,8 @@ res.status(400).json({error:err.message})
 carRouter.get("/",async(req,res)=>{
     
     try{
-        let book=await CarModel.find()
-        res.send(book)
+        let car=await CarModel.find()
+        res.send(car)
        
     }catch(err){
         res.status(400).json({error:err.message})
@@ -50,7 +50,7 @@ carRouter.patch("/update/:postID",async(req,res)=>{
             if(req.body.authorID!==post.authorID){
                 res.status(200).send({"msg":"You are not Authorised"})
             }else{
-                await CarModel.findByIdAndDelete({_id:postID},req.body)
+                await CarModel.findByIdAndDelete({_id:postID})
                 res.status(200).send({"msg":"The post has been deleted"})
             }
         }catch(err){

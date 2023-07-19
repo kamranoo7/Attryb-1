@@ -31,9 +31,7 @@ let user=await UserModel.findOne({email})
 if(user){
     bcrypt.compare(pass,user.pass,(err,result)=>{
         if(result){
-            let token=jwt.sign({userID:user._id,user:user.name},"masai",{
-                expiresIn:10*60*60
-            })
+            let token=jwt.sign({userID:user._id,user:user.name},"masai")
             res.status(200).send({"msg":"Login Succesfully","token":token})
         }else{
             res.status(400).send({"msg":"wrong credential"})
