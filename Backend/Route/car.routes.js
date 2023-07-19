@@ -29,17 +29,14 @@ carRouter.get("/",async(req,res)=>{
 
 //Update
 carRouter.patch("/update/:postID",async(req,res)=>{
+    
     let {postID}=req.params
-    let post=await CarModel.findOne({_id:postID})
+    let payload=req.body
     try{
-        if(req.body.authorID!==post.authorID){
-            res.status(200).send({"msg":"You are not Authorised"})
-        }else{
-            await CarModel.findByIdAndUpdate({_id:postID},req.body)
-            res.status(200).send({"msg":"The post has been updated"})
-        }
+        await CarModel.findByIdAndUpdate({_id:postID},payload)
+        res.status(200).json({msg:"Car has been updated"})
     }catch(err){
-        res.status(400).send({"msg":err.message})
+        res.status(400).json({error:err.message})
     }
     })
     //delete
