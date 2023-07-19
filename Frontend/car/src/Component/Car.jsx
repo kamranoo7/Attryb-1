@@ -1,6 +1,9 @@
-import { Button, Collapse } from '@chakra-ui/react'
+import { Button, Center, Collapse } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import style from  "../Style/Car.module.css"
+import {DeleteIcon} from "@chakra-ui/icons"
+import CarCard from './CarCard'
 const Dasboard = () => {
     let [data,setData]=useState("")
     let [email,setEmail]=useState("")
@@ -147,7 +150,7 @@ let filter4=()=>{
 }
 //Delete
 let deleteData=(id)=>{
-    fetch(`https://react-crud-1.onrender.com/employees/delete/${id}`,{
+    fetch(`http://localhost:8080/car/delete/${id}`,{
         method:"DELETE",
         headers:{
             "Authorization":`Bearer ${localStorage.getItem("token")}`
@@ -176,55 +179,89 @@ let Mileage1=()=>{
 }).catch(err=>console.log(err))
 
 }
+//Mileage-16-20Km
+let Mileage2=()=>{
+    fetch('http://localhost:8080/car/mileage2',{
+            
+    headers:{
+        "Authorization":`Bearer ${localStorage.getItem("token")}`
+    },
+})
+.then(res=>res.json())
+.then(res=>{
+  
+   setData(res)
+}).catch(err=>console.log(err))
+
+}
+//Mileage-21-25Km
+let Mileage3=()=>{
+    fetch('http://localhost:8080/car/mileage3',{
+            
+    headers:{
+        "Authorization":`Bearer ${localStorage.getItem("token")}`
+    },
+})
+.then(res=>res.json())
+.then(res=>{
+  
+   setData(res)
+}).catch(err=>console.log(err))
+
+}
   return (
-    <div>
-        <label htmlFor="">title</label>
-        <input type="text" placeholder='Enter Email'  value={title}onChange={(e)=>setTitle(e.target.value)}/>
-        <label htmlFor="">color</label>
-        <input type="text" placeholder='Enter firstName' value={color} onChange={(e)=>setColor(e.target.value)}/>
-        <label htmlFor="">Price</label>
-        <input type="text" placeholder='Enter last name' value={price} onChange={(e)=>setPrice(e.target.value)} />
-        <label htmlFor="">Mileage</label>
-        <input type="number" placeholder='Enter Salary' value={mileage} onChange={(e)=>setMileage(e.target.value)} />
-        
-      <button onClick={handleSubmit}>Submit</button>
+    
+       
 <div>
-    <h1>All Data</h1>
-    <div>
+    <h1 style={{textAlign:"center",fontSize:"24px",fontWeight:"500"}}>All Car</h1>
+    <div style={{marginLeft:"1000px"}}>
         <div>
             
-            <button onClick={()=>{
+            <Button onClick={()=>{
                 localStorage.removeItem("token")
                 localStorage.removeItem("email")
 
 navigate("/login")
-            }}>Logout</button>
+            }}>LOGOUT</Button>
         </div>
     </div>
+    <div className={style.car}>
+    <div>
+        <h1 style={{fontWeight:"500"}}>Sort by Price</h1>
     <Button onClick={sort1} >SortAscending</Button>
+    <br />
     <Button onClick={sort2}>SortDescending</Button>
-    <Button onClick={filter1}>Grey</Button>
-    <Button onClick={filte2}>Red</Button>
-    <Button onClick={filter3}>Black</Button>
-    <Button onClick={filter4}>White</Button>
-    <select name="" id="">
-        <option value="" onClick={Mileage1}>10-15Km</option>
-    </select>
+    <br />
+    <h1 style={{fontWeight:"500"}}>Sort by Color</h1>
+    <input type='checkbox' onChange={filter1}/>
+    <label htmlFor="">GREY</label>
+    <br />
+    <input type='checkbox' onChange={filte2}/>
+    <label htmlFor="">RED</label>
+    <br />
+    <input type='checkbox' onChange={filter3}/>
+    <label htmlFor="">BLACK</label>
+    <br />
+    <input type='checkbox' onChange={filter4}/>
+    <label htmlFor="">White</label>
+    <br />
+    <h1 style={{fontWeight:"500"}}>Mileage</h1>
+    <Button onClick={Mileage1}>10-15Km/h</Button>
+    <Button onClick={Mileage2}>16-20Km/h</Button>
+    <Button onClick={Mileage3}>21-25Km/h</Button>
+    </div>
+    
+    <div className={style.carcard}  >
    {data.length>0&&
    data.map((el,index)=>{
-    return <div>
-        <img src={el.image} alt="" />
-        <h1>Title:-{el.title}</h1>
-        <h2>Price:-{el.price}</h2>
-      <p>description:-{el.description}</p>
-      <h3>color:-{el.color}</h3>
-      <p>Mileage:-{el.mileage}</p>
+    return <div   
+>       <CarCard key={el.id} {...el}/>
     </div>
    })}
-   
-   
+   </div>
+   </div>
 </div>
-    </div>
+   
   )
 }
 
