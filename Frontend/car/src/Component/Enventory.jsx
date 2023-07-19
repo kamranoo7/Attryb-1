@@ -53,6 +53,7 @@ const Enventory = () => {
     //GEt
   return (
     <div className={style.addcar}>
+      <h1 style={{color:'white',textAlign:"center",marginTop:"-20px",fontSize:"24px"}}>Add Inventory</h1>
        <div>
         <label style={{color:"white"}} htmlFor="">Kms</label>
         <br />
