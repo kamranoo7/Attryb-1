@@ -43,7 +43,7 @@ export function Edit() {
 
         
         fetch(`https://backend-done.onrender.com/car/update/${id}`,{
-            method:"PUT",
+            method:"PATCH",
             headers:{
                "Authorization":`Bearer ${localStorage.getItem("token")}`,
                "Content-Type":"application/json"
